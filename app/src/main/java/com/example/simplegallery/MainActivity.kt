@@ -71,7 +71,10 @@ fun PhotoGalleryScreen(modifier: Modifier = Modifier) {
             val lastVisibleItemIndex = layout.visibleItemsInfo.lastOrNull()?.index ?: 0
             lastVisibleItemIndex >= totalItems - 2
         }.distinctUntilChanged().collect {
-            val nextPageItems = repo.getRandomPhotos(page = pageCount++)
+            pageCount += 1
+            //UI Bug here such that the second request can come before the first request is complete
+            //Can be fixed by adding state management
+            val nextPageItems = repo.getRandomPhotos(page = pageCount)
             photos.addAll(nextPageItems)
         }
     }
