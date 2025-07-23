@@ -6,14 +6,22 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -28,6 +36,7 @@ import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.placeholder.placeholder
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhotoGalleryScreen(
     modifier: Modifier = Modifier,
@@ -35,45 +44,61 @@ fun PhotoGalleryScreen(
 ) {
     val lazyGridState = rememberLazyGridState()
     val photos = viewModel.photos.collectAsLazyPagingItems()
+    val isRefreshing = photos.loadState.refresh is LoadState.Loading
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        state = lazyGridState,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(horizontal = 6.dp, vertical = 40.dp),
-        modifier = modifier
-            .fillMaxSize()
-            .systemBarsPadding()
-    ) {
-        when (val refreshState = photos.loadState.refresh) {
-            is LoadState.Loading -> {
-                items(10) {
-                    ShimmerPhotoItem()
-                }
-            }
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Image gallery") })
+        },
+    ) { paddingValues ->
+        PullToRefreshBox(
+            modifier = Modifier.padding(paddingValues),
+            isRefreshing = isRefreshing,
+            onRefresh = { photos.refresh() },
+            state = rememberPullToRefreshState(),
+        ) {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                state = lazyGridState,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(horizontal = 6.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                when (val refreshState = photos.loadState.refresh) {
+                    is LoadState.Loading -> {
+                        items(10) {
+                            ShimmerPhotoItem()
+                        }
+                    }
 
-            is LoadState.Error -> {
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    Text(refreshState.error.message ?: "Unknown error", color = Color.Red)
-                }
-            }
+                    is LoadState.Error -> {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            Text(refreshState.error.message ?: "Unknown error", color = Color.Red)
+                        }
+                    }
 
-            else -> {
-                items(photos.itemCount) { index ->
-                    AsyncImage(
-                        model = photos[index]?.url,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(0.7f)
-                            .clip(RoundedCornerShape(12.dp))
-                    )
+                    else -> {
+                        items(photos.itemCount) { index ->
+                            AsyncImage(
+                                model = photos[index]?.url,
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .aspectRatio(0.7f)
+                                    .clip(RoundedCornerShape(12.dp))
+                            )
+                        }
+                    }
                 }
             }
         }
     }
+
+
+
 }
 
 @Composable

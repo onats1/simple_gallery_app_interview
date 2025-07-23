@@ -5,6 +5,7 @@ import com.example.simplegallery.repository.PhotoRepository
 import com.example.simplegallery.network.PhotoService
 import com.example.simplegallery.ui.PhotoGalleryScreenViewModel
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -19,8 +20,13 @@ val appModule = module {
     viewModel { PhotoGalleryScreenViewModel(get()) }
 }
 
+private val loggingInterceptor = HttpLoggingInterceptor().apply {
+    level = HttpLoggingInterceptor.Level.BODY
+}
+
 //Change: Add OkHttp interceptor as a dependency
 private val okHttp = OkHttpClient.Builder()
+    .addInterceptor(loggingInterceptor)
     .addInterceptor { chain ->
         val request = chain.request()
             .newBuilder()
