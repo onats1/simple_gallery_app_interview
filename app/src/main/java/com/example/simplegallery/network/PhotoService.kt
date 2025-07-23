@@ -1,6 +1,7 @@
 package com.example.simplegallery.network
 
 import com.example.simplegallery.BuildConfig
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -15,5 +16,5 @@ interface PhotoService {
     suspend fun getPhotos(
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
-    ): List<PhotoRemote>
+    ): Response<List<PhotoRemote>>
 }

@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.simplegallery.data.GalleryImage
+import com.example.simplegallery.domain.Resource
 import com.example.simplegallery.network.PhotoService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

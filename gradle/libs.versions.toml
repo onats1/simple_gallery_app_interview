@@ -12,6 +12,7 @@ coil = "2.7.0"
 retrofit = "2.11.0"
 koin = "4.0.2"
 paging = "3.3.0"
+accompanistPlaceholder = "0.33.2-alpha"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,6 +38,7 @@ retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-androidx-viewmodel = { module = "io.insert-koin:koin-androidx-viewmodel", version.ref = "koin" }
+accompanist-placeholder-material = { group = "com.google.accompanist", name = "accompanist-placeholder-material", version.ref = "accompanistPlaceholder" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

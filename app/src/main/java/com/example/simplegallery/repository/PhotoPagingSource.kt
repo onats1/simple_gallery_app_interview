@@ -20,12 +20,16 @@ class PhotoPagingSource(
         return try {
             val page = params.key ?: 1
             val response = photoService.getPhotos(page = page, perPage = params.loadSize)
-            LoadResult.Page(
-                data = response,
-                prevKey = if (page == 1) null else page - 1,
-                nextKey = if (response.isEmpty()) null else page + 1
-            )
-
+            if (response.isSuccessful) {
+                val data = response.body() ?: listOf()
+                LoadResult.Page(
+                    data = data,
+                    prevKey = if (page == 1) null else page - 1,
+                    nextKey = if (data.isEmpty()) null else page + 1
+                )
+            } else {
+                LoadResult.Error(Exception("Failed to load photos"))
+            }
         } catch (e: Exception) {
             LoadResult.Error(e)
         }

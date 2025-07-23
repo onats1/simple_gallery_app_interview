@@ -9,7 +9,7 @@ import com.example.simplegallery.repository.PhotoRepository
 import kotlinx.coroutines.flow.Flow
 
 class PhotoGalleryScreenViewModel(
-    private val repository: PhotoRepository
+    repository: PhotoRepository
 ): ViewModel() {
 
     val photos: Flow<PagingData<GalleryImage>> = repository.getRandomPhotos()
