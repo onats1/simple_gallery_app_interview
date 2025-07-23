@@ -26,6 +26,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.simplegallery.data.GalleryImage
 import com.example.simplegallery.repository.PhotoRepository
@@ -38,8 +41,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             SimpleGalleryTheme {
-                PhotoGalleryScreen()
+                NavHost(navController, startDestination = "gallery") {
+                    composable("gallery") {
+                        PhotoGalleryScreen()
+                    }
+                }
             }
         }
     }
