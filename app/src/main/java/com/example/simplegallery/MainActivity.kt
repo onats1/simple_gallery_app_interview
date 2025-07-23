@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.simplegallery.data.GalleryImage
 import com.example.simplegallery.repository.PhotoRepository
+import com.example.simplegallery.ui.screens.PhotoGalleryScreen
 import com.example.simplegallery.ui.theme.SimpleGalleryTheme
 import org.koin.compose.koinInject
 
@@ -48,39 +49,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun PhotoGalleryScreen(modifier: Modifier = Modifier) {
-    val repo: PhotoRepository = koinInject()
-    val lazyGridState = rememberLazyGridState()
-    val photos = remember { mutableStateListOf<GalleryImage>() }
-
-    LaunchedEffect(Unit) {
-        photos.addAll(repo.getRandomPhotos())
-    }
-
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        state = lazyGridState,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(horizontal = 6.dp, vertical = 40.dp),
-        modifier = modifier
-            .fillMaxSize()
-            .systemBarsPadding()
-    ) {
-        items(items = photos.toList()) { image ->
-            AsyncImage(
-                model = image.url,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(0.7f)
-                    .clip(RoundedCornerShape(12.dp))
-            )
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable

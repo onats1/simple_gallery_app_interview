@@ -3,7 +3,9 @@ package com.example.simplegallery.di
 import com.example.simplegallery.BuildConfig
 import com.example.simplegallery.repository.PhotoRepository
 import com.example.simplegallery.network.PhotoService
+import com.example.simplegallery.ui.PhotoGalleryScreenViewModel
 import okhttp3.OkHttpClient
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,6 +16,7 @@ val appModule = module {
     single { provideRetrofit(get()) }
     single { createImageService(get()) }
     single { PhotoRepository(get()) }
+    viewModel { PhotoGalleryScreenViewModel(get()) }
 }
 
 //Change: Add OkHttp interceptor as a dependency
