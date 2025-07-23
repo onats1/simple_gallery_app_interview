@@ -33,5 +33,4 @@ class PhotoPagingSource(
             LoadResult.Error(e)
         }
     }
-
 }

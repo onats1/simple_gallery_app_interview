@@ -95,9 +95,6 @@ fun PhotoGalleryScreen(
             }
         }
     }
-
-
-
 }
 
 @Composable
