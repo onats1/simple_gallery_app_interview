@@ -4,6 +4,7 @@ import com.example.simplegallery.BuildConfig
 import com.example.simplegallery.repository.PhotoRepository
 import com.example.simplegallery.network.PhotoService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,7 +18,12 @@ val appModule = module {
 }
 
 //Change: Add OkHttp interceptor as a dependency
+private val loggingInterceptor = HttpLoggingInterceptor().apply {
+    level = HttpLoggingInterceptor.Level.BODY
+}
+
 private val okHttp = OkHttpClient.Builder()
+    .addInterceptor(loggingInterceptor)
     .addInterceptor { chain ->
         val request = chain.request()
             .newBuilder()
@@ -33,7 +39,5 @@ private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         .baseUrl("https://api.unsplash.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
-
 
 private fun createImageService(retrofit: Retrofit) = retrofit.create(PhotoService::class.java)

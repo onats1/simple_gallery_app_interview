@@ -19,8 +19,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -30,6 +34,7 @@ import coil.compose.AsyncImage
 import com.example.simplegallery.data.GalleryImage
 import com.example.simplegallery.repository.PhotoRepository
 import com.example.simplegallery.ui.theme.SimpleGalleryTheme
+import kotlinx.coroutines.flow.distinctUntilChanged
 import org.koin.compose.koinInject
 
 class MainActivity : ComponentActivity() {
@@ -53,9 +58,22 @@ fun PhotoGalleryScreen(modifier: Modifier = Modifier) {
     val repo: PhotoRepository = koinInject()
     val lazyGridState = rememberLazyGridState()
     val photos = remember { mutableStateListOf<GalleryImage>() }
+    var pageCount by remember { mutableStateOf(1) }
 
     LaunchedEffect(Unit) {
-        photos.addAll(repo.getRandomPhotos())
+        photos.addAll(repo.getRandomPhotos(page = pageCount))
+    }
+
+    LaunchedEffect(lazyGridState) {
+        snapshotFlow {
+            val layout = lazyGridState.layoutInfo
+            val totalItems = layout.totalItemsCount
+            val lastVisibleItemIndex = layout.visibleItemsInfo.lastOrNull()?.index ?: 0
+            lastVisibleItemIndex >= totalItems - 2
+        }.distinctUntilChanged().collect {
+            val nextPageItems = repo.getRandomPhotos(page = pageCount++)
+            photos.addAll(nextPageItems)
+        }
     }
 
     LazyVerticalGrid(
