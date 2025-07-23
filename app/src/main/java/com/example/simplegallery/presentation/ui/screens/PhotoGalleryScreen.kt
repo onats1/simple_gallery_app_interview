@@ -23,10 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
+import com.example.simplegallery.R
 import com.example.simplegallery.presentation.viewmodel.PhotoGalleryScreenViewModel
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.shimmer
@@ -44,7 +46,7 @@ fun PhotoGalleryScreen(
     val isRefreshing = photos.loadState.refresh is LoadState.Loading
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Image gallery") })
+            TopAppBar(title = { Text(stringResource(R.string.image_gallery)) })
         },
         modifier = modifier
     ) { paddingValues ->
