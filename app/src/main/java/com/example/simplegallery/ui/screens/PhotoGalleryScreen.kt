@@ -45,11 +45,11 @@ fun PhotoGalleryScreen(
     val lazyGridState = rememberLazyGridState()
     val photos = viewModel.photos.collectAsLazyPagingItems()
     val isRefreshing = photos.loadState.refresh is LoadState.Loading
-
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Image gallery") })
         },
+        modifier = modifier
     ) { paddingValues ->
         PullToRefreshBox(
             modifier = Modifier.padding(paddingValues),

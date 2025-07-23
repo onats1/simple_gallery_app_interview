@@ -39,11 +39,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SimpleGalleryTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    PhotoGalleryScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                PhotoGalleryScreen()
             }
         }
     }
