@@ -1,4 +1,4 @@
-package com.example.simplegallery.data
+package com.example.simplegallery.domain.models
 
 data class GalleryImage(
     val url: String?,

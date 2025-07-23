@@ -1,9 +1,11 @@
 package com.example.simplegallery.di
 
 import com.example.simplegallery.BuildConfig
-import com.example.simplegallery.repository.PhotoRepository
-import com.example.simplegallery.network.PhotoService
-import com.example.simplegallery.ui.PhotoGalleryScreenViewModel
+import com.example.simplegallery.data.repository.PhotoRepositoryImpl
+import com.example.simplegallery.data.remote.services.PhotoService
+import com.example.simplegallery.domain.repo.PhotoRepository
+import com.example.simplegallery.domain.usecases.GetPhotosUseCase
+import com.example.simplegallery.presentation.viewmodel.PhotoGalleryScreenViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.module.dsl.viewModel
@@ -16,7 +18,8 @@ val appModule = module {
     single { okHttp }
     single { provideRetrofit(get()) }
     single { createImageService(get()) }
-    single { PhotoRepository(get()) }
+    single<PhotoRepository> { PhotoRepositoryImpl(get()) }
+    single { GetPhotosUseCase(get()) }
     viewModel { PhotoGalleryScreenViewModel(get()) }
 }
 

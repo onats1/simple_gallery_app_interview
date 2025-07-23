@@ -1,10 +1,9 @@
-package com.example.simplegallery.repository
+package com.example.simplegallery.data.repository
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.simplegallery.data.GalleryImage
-import com.example.simplegallery.network.PhotoRemote
-import com.example.simplegallery.network.PhotoService
+import com.example.simplegallery.data.remote.models.PhotoRemote
+import com.example.simplegallery.data.remote.services.PhotoService
 
 class PhotoPagingSource(
     private val photoService: PhotoService

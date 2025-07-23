@@ -1,4 +1,4 @@
-package com.example.simplegallery.domain
+package com.example.simplegallery.domain.utils
 
 sealed class Resource<out T> {
     data class Success<out T>(val data: T): Resource<T>()

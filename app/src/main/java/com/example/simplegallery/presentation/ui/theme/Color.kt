@@ -1,4 +1,4 @@
-package com.example.simplegallery.ui.theme
+package com.example.simplegallery.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
