@@ -3,12 +3,12 @@ package com.example.simplegallery.repository
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.simplegallery.data.remote.models.Location
 import com.example.simplegallery.data.remote.models.PhotoRemote
-import com.example.simplegallery.data.remote.models.Urls
-import com.example.simplegallery.data.remote.models.UserData
 import com.example.simplegallery.data.remote.services.PhotoService
 import com.example.simplegallery.data.repository.PhotoPagingSource
+import com.example.simplegallery.utils.photoRemote1
+import com.example.simplegallery.utils.photoRemote2
+import com.example.simplegallery.utils.photoRemote3
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -125,58 +125,3 @@ class PhotoPagingSourceTest {
         assertEquals(2, key)
     }
 }
-
-val photoRemote1 = PhotoRemote(
-    id = "1",
-    urls = Urls(
-        raw = "",
-        full = "",
-        regular = "https://example.com/photo1",
-        small = "",
-    ),
-    location = Location(
-        city = "",
-        country = ""
-    ),
-    user = UserData(
-        id = "",
-        username = "",
-        name = "",
-    )
-)
-val photoRemote2 = PhotoRemote(
-    id = "2",
-    urls = Urls(
-        raw = "https://example.com/photo2",
-        full = "",
-        regular = "",
-        small = "",
-    ),
-    location = Location(
-        city = "",
-        country = ""
-    ),
-    user = UserData(
-        id = "",
-        username = "",
-        name = "",
-    )
-)
-val photoRemote3 = PhotoRemote(
-    id = "3",
-    urls = Urls(
-        raw = "https://example.com/photo3",
-        full = "",
-        regular = "",
-        small = "",
-    ),
-    location = Location(
-        city = "",
-        country = ""
-    ),
-    user = UserData(
-        id = "",
-        username = "",
-        name = "",
-    )
-)

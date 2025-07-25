@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.test)
     implementation(libs.coil.compose)
     implementation(libs.coil)
     implementation(libs.retrofit)
