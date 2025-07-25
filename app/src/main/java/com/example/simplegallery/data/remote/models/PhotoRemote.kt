@@ -1,4 +1,4 @@
-package com.example.simplegallery.network
+package com.example.simplegallery.data.remote.models
 
 data class PhotoRemote(
     val id: String,
@@ -24,5 +24,4 @@ data class UserData(
     val id: String,
     val username: String,
     val name: String,
-
 )
